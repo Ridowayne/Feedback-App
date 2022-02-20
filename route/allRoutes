@@ -1,0 +1,19 @@
+sign up,
+log in,
+forgot and reset paswords
+Update user
+agent route for form,
+agent routes for responses to form,
+agents routes for givings ratings and reviews (Reviews.create)
+user/me
+engineering routes for feedbacks, Form.find({feedbacktype: engineering})
+engineering routes to patch feedbacks with resolutions and done Form.save({resolution: req.body.resolution}),
+engineering routes for getting resolutions and rating/reviews (Form.find().populate reviews)
+
+super admin routes;
+to get all feedbacks submitted, Form.find()
+to get all resolved feedbacks, Form.find({resolved: true})
+to get all unresolved feedbacks, Form.find({resolved: true})
+to get all feedbacks with ratings and reviews, Form.find().populate(Reviews)
+supper admin to get all users User.find()
+/* … */
