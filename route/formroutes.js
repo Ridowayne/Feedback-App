@@ -1,4 +1,5 @@
 const express = require('express');
+const { Agent } = require('http');
 const app = express();
 const formController = require('../controllers/formControllers');
 const reviewController = require('../controllers/reviewController');
@@ -24,14 +25,67 @@ router
 router
   .route('/agents/forms')
   .post(formController.sendForm)
-  .get(formController.readForm)
   .get(formController.readForms)
-  .patch(formController.respondToForm)
-  .patch(formController.review)
-  .post(reviewController.writeReview);
+  .patch(formController.review);
 
-router.route('/engineering/forms').post().get().patch();
-router.route('/Operations/forms').post().get().patch();
-router.route('/hr/forms').post().get().patch();
+// Routes for for handling specific form
+router
+  .route('/agents/forms/:id')
+  .get(formController.readForm)
+  .patch(formController.respondToForm);
 
+// Engineering routes
+router
+  .route('/engineering/forms')
+  .get(formController.engineeringForms)
+  .patch(formController.respondToForm);
+
+// specific engineering issues by id
+router
+  .route('/engineering/forms/:id')
+  .get(formController.readForm)
+  .patch(formController.respondToForm);
+
+router
+  .route('/operations/forms')
+  .post()
+  .get(formController.operationsForms)
+  .patch(formController.respondToForm);
+
+// specific operations issues by Id
+router
+  .route('/operations/forms/:id')
+  .get(formController.readForm)
+  .patch(formController.respondToForm);
+
+router
+  .route('/management/forms')
+  .post()
+  .get(formController.managementForms)
+  .patch(formController.respondToForm);
+
+// specific management issues by Id
+router
+  .route('/management/forms/:id')
+  .get(formController.readForm)
+  .patch(formController.respondToForm);
+
+router
+  .route('/general/forms')
+  .get(formController.generalSuggestionForms)
+  .patch(formController.respondToForm);
+
+// specific general issues based on id
+router
+  .route('/general/forms/:id')
+  .get(formController.readForm)
+  .patch(formController.respondToForm);
+
+// Super Admin getting issues
+router.route('superAdmin/forms').get(formController.superAdminallforms);
+
+// super Admin getting specific issues by Id
+router.route('superAdmin/forms/:id').get(formController.readForm);
+
+router.route('reviews').post(reviewController.writeReview);
 module.exports = router;

@@ -15,8 +15,7 @@ const formSchema = new mongoose.Schema({
     required: [true, 'kindly specify the kind of feedback you want to give'],
     enum: [
       'Engineering',
-      'Operations',
-      'Team-lead/hr',
+      'Operations/Team-lead/hr',
       'General Suggestion',
       'Management',
     ],
