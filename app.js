@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const ErrorResponse = require('./utils/errorResponse');
-const globalErrorHandler = require('.');
+const globalErrorHandler = require('./utils/errorResponse');
 
 const messageRoutes = require('./route/messageRoutes');
 const chat = require('./controllers/messageController');
@@ -9,7 +9,7 @@ const chat = require('./controllers/messageController');
 const app = express();
 
 app.use(express.json({ limit: '10kb' }));
-app.use(express.static(__dirname));
+// app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
