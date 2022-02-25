@@ -37,8 +37,8 @@ const formSchema = new mongoose.Schema({
     type: String,
   },
   reviews: {
-    ref: Review,
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.ObjectId,
+    ref: 'Review',
   },
 });
 

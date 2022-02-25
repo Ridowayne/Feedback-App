@@ -4,6 +4,7 @@ const ErrorResponse = require('./utils/errorResponse');
 const globalErrorHandler = require('./utils/errorResponse');
 
 const messageRoutes = require('./route/messageRoutes');
+const amRoutes = require('./route/amRoutes');
 const chat = require('./controllers/messageController');
 
 const app = express();
@@ -16,17 +17,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/message', messageRoutes);
-// app.get('/message', chat.getMessage);
-// app.post('/message', chat.sendMessage);
+app.use('/agents/forms', amRoutes),
+  //  app.route('/message').get(chat.getMessage).post(chat.sendMessage);
 
-// this is for unhandled routes
-// app.all('*', (req, res, next) => {
-//   // res.status(404).json({
-//   //   status: 'fail',
-//   //   message: `can not get ${req.originalUrl} on the server`
-//   // });
-//   next(new ErrorResponse(`can not get ${req.originalUrl} on the server`, 404));
-// });
+  // this is for unhandled routes
+  app.all('*', (req, res, next) => {
+    res.status(404).json({
+      status: 'fail',
+      message: `can not get ${req.originalUrl} on the server`,
+    });
+    next(
+      new ErrorResponse(`can not get ${req.originalUrl} on the server`, 404)
+    );
+  });
 
 app.use(globalErrorHandler);
 

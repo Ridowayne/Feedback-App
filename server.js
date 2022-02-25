@@ -23,7 +23,7 @@ server.listen(port, () => {
 process.on('unhandledRejection', (err) => {
   console.log('Unhandled Rejection 💥shutting down...');
   console.log(err.name, err.message);
-  dServer.close(() => {
+  server.close(() => {
     process.exit(1);
   });
 });
