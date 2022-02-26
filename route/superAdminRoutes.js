@@ -5,7 +5,8 @@ const superAdminController = require('../controllers/supperAdminController');
 const reviewController = require('../controllers/reviewController');
 
 // Super Admin getting issues
-router.route('superAdmin/forms').get(superAdminController.superAdminallforms);
+app.route('/').get(superAdminController.superAdminallforms);
 
 // super Admin getting specific issues by Id
-router.route('superAdmin/forms/:id').get(superAdminController.readForm);
+app.route('/:id').get(superAdminController.readForm);
+module.exports = app;

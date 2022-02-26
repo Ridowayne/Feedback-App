@@ -38,6 +38,12 @@ exports.respondToForm = catchAsync(async (req, res, next) => {
   if (!response) {
     return next(new ErrorResponse('no tour found with such id', 404));
   }
+  res.status(201).json({
+    status: 'sucess',
+    data: {
+      response,
+    },
+  });
 });
 
 // for reading one parrticular form GET

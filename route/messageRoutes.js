@@ -1,11 +1,11 @@
 const express = require('express');
 const messageController = require('./../controllers/messageController');
 
-const router = express.Router();
+const app = express();
 
-router
+app
   .route('/')
   .get(messageController.getMessage)
   .post(messageController.sendMessage);
 
-module.exports = router;
+module.exports = app;

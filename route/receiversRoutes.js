@@ -1,55 +1,55 @@
 const express = require('express');
 const { Agent } = require('http');
 const app = express();
-const router = app.router;
+// const router = app.router;
 const receiverController = require('../controllers/receiversController');
 
 // Engineering routes
-router
+app
   .route('/engineering/forms')
   .get(receiverController.engineeringForms)
   .patch(receiverController.respondToForm);
 
 // specific engineering issues by id
-router
+app
   .route('/engineering/forms/:id')
   .get(receiverController.readForm)
   .patch(receiverController.respondToForm);
 
-router
+app
   .route('/operations/forms')
   .post()
   .get(receiverController.operationsForms)
   .patch(receiverController.respondToForm);
 
 // specific operations issues by Id
-router
+app
   .route('/operations/forms/:id')
   .get(receiverController.readForm)
   .patch(receiverController.respondToForm);
 
-router
+app
   .route('/management/forms')
   .post()
   .get(receiverController.managementForms)
   .patch(receiverController.respondToForm);
 
 // specific management issues by Id
-router
+app
   .route('/management/forms/:id')
   .get(receiverController.readForm)
   .patch(receiverController.respondToForm);
 
-router
-  .route('/general/forms')
+app
+  .route('/')
   .get(receiverController.generalSuggestionForms)
   .patch(receiverController.respondToForm);
 
 // specific general issues based on id
-router
-  .route('/general/forms/:id')
+app
+  .route('/:id')
   .get(receiverController.readForm)
   .patch(receiverController.respondToForm);
 
 // export it
-module.exports = router;
+module.exports = app;
