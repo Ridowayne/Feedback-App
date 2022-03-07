@@ -60,7 +60,7 @@ exports.readForm = catchAsync(async (req, res, next) => {
 // for getting feedbacks related to management on the Operations Dashboard
 exports.operationsForms = catchAsync(async (req, res) => {
   const operationIssues = await Form.find({
-    feedback: 'Operations/Team-lead/hr',
+    feedbackType: 'Operations/Team-lead/hr',
   });
 
   res.status(200).json({

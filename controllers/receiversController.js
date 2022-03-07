@@ -2,6 +2,7 @@ const Form = require('./../models/formModel');
 const catchAsync = require('./../utils/catchAsync');
 const ErrorResponse = require('../utils/errorResponse');
 const APIFeatures = require('../utils/apiFeatures');
+const { isValidObjectId } = require('mongoose');
 
 exports.respondToForm = catchAsync(async (req, res, next) => {
   const response = await Form.findByIdAndUpdate(req.params.id, req.body, {
@@ -12,6 +13,15 @@ exports.respondToForm = catchAsync(async (req, res, next) => {
   if (!response) {
     return next(new ErrorResponse('no tour found with such id', 404));
   }
+
+  io.socket.emit('');
+
+  res.status(200).json({
+    status: 'success',
+    feedback: {
+      allForm,
+    },
+  });
 });
 
 // for reading one parrticular form GET
@@ -40,6 +50,7 @@ exports.operationsForms = catchAsync(async (req, res) => {
       new ErrorResponse('no Operations Issues submitted at the moment', 404)
     );
   }
+  io.socket.emit('operationalFeedBack', operationIssues);
   res.status(200).json({
     status: 'Success',
     data: {
@@ -57,6 +68,8 @@ exports.engineeringForms = catchAsync(async (req, res) => {
       new ErrorResponse('no Engineering Issues submitted at the moment', 404)
     );
   }
+
+  io.socket.emit('engineeringIssues', engineeringIssues);
 
   res.status(200).json({
     status: 'Success',
@@ -80,6 +93,7 @@ exports.generalSuggestionForms = catchAsync(async (req, res) => {
       )
     );
   }
+  io.socket.emit('generalSuggestionIssues', generalSuggestionIssues);
 
   res.status(200).json({
     status: 'Success',
@@ -99,6 +113,8 @@ exports.managementForms = catchAsync(async (req, res) => {
     );
   }
 
+  io.socket.emit('managementIssues', managementIssues);
+
   res.status(200).json({
     status: 'Success',
     data: {
@@ -113,6 +129,11 @@ exports.review = catchAsync(async (req, res) => {
     new: true,
     runValidators: true,
   });
+
+  io.socket.on('allreview', function (review) {
+    io.socket.emit('review', review);
+  });
+
   res.status(201).json({
     status: 'Success',
     data: {

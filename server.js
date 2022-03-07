@@ -1,3 +1,4 @@
+const http = require('http');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const socketio = require('socket.io');
@@ -6,10 +7,23 @@ dotenv.config({ path: './config.env' });
 const app = require('./app');
 
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const io = socketio(server);
+global.io = io;
+
+app.set('socketio', io);
 
 io.on('connection', () => {
   console.log('a user is connected');
+});
+
+//Whenever someone connects this gets executed
+io.on('connection', function (socket) {
+  console.log('A user connected');
+
+  //Whenever someone disconnects this piece of code executed
+  socket.on('disconnect', function () {
+    console.log('A user disconnected');
+  });
 });
 
 const DB = process.env.DATABASE;

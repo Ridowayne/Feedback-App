@@ -13,6 +13,8 @@ exports.superAdminallforms = catchAsync(async (req, res) => {
     .paginate();
   const forms = await features.query;
 
+  io.emit('allfeedbacks', forms);
+
   // SEND RESPONSE
   res.status(200).json({
     status: 'success',

@@ -17,6 +17,11 @@ app.use(express.json({ limit: '10kb' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use((req, res, next) => {
+  req.io = io;
+  return next();
+});
+
 // Routes
 app.use('/api/v1/message', messageRoutes);
 app.use('/api/v1/agents/forms', amRoutes);
