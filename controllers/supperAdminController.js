@@ -1,7 +1,14 @@
+const http = require('http');
+const socketio = require('socket.io');
+
+const app = require('../app');
 const Form = require('./../models/formModel');
 const catchAsync = require('./../utils/catchAsync');
 const ErrorResponse = require('../utils/errorResponse');
 const APIFeatures = require('../utils/apiFeatures');
+
+const server = require('http').createServer(app);
+const io = socketio(server);
 
 // Super admin getting all forms with the features
 exports.superAdminallforms = catchAsync(async (req, res) => {
@@ -13,7 +20,10 @@ exports.superAdminallforms = catchAsync(async (req, res) => {
     .paginate();
   const forms = await features.query;
 
-  io.emit('allfeedbacks', forms);
+  io.on('connection', (socket) => {
+    // send a message to the client
+    socket.emit('allFeedbacks', forms);
+  });
 
   // SEND RESPONSE
   res.status(200).json({

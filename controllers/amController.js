@@ -1,15 +1,21 @@
+const http = require('http');
 const socketio = require('socket.io');
+
+const app = require('./../app');
 const Form = require('./../models/formModel');
 const catchAsync = require('./../utils/catchAsync');
 const ErrorResponse = require('../utils/errorResponse');
 const APIFeatures = require('../utils/apiFeatures');
 
+const server = require('http').createServer(app);
+const io = socketio(server);
+
 // for sending forms
 exports.sendForm = catchAsync(async (req, res) => {
   const form = await Form.create(req.body);
 
-  io.socket.on('form', function (form) {
-    io.socket.emit('newFeedback', form);
+  io.on('form', (socket) => {
+    socket.emit('newFeedback', form);
   });
 
   res.status(200).json({
@@ -31,7 +37,10 @@ exports.readForms = catchAsync(async (req, res) => {
     );
   }
 
-  io.emit('usersforms', allForms);
+  io.on('connection', (socket) => {
+    // send a message to the client
+    socket.emit('user', allForms);
+  });
 
   res.status(200).json({
     status: 'success',

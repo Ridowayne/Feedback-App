@@ -1,8 +1,15 @@
+const http = require('http');
+const socketio = require('socket.io');
+
+const app = require('../app');
 const Form = require('./../models/formModel');
 const catchAsync = require('./../utils/catchAsync');
 const ErrorResponse = require('../utils/errorResponse');
 const APIFeatures = require('../utils/apiFeatures');
 const { isValidObjectId } = require('mongoose');
+
+const server = require('http').createServer(app);
+const io = socketio(server);
 
 exports.respondToForm = catchAsync(async (req, res, next) => {
   const response = await Form.findByIdAndUpdate(req.params.id, req.body, {
@@ -69,7 +76,10 @@ exports.engineeringForms = catchAsync(async (req, res) => {
     );
   }
 
-  io.socket.emit('engineeringIssues', engineeringIssues);
+  io.on('connection', (socket) => {
+    // send a message to the client
+    socket.emit('engineering Issues', engineeringIssues);
+  });
 
   res.status(200).json({
     status: 'Success',
@@ -93,7 +103,10 @@ exports.generalSuggestionForms = catchAsync(async (req, res) => {
       )
     );
   }
-  io.socket.emit('generalSuggestionIssues', generalSuggestionIssues);
+  io.on('connection', (socket) => {
+    // send a message to the client
+    socket.emit('new message', generalSuggestionIssues);
+  });
 
   res.status(200).json({
     status: 'Success',

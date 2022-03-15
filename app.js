@@ -23,6 +23,9 @@ app.use((req, res, next) => {
 });
 
 // Routes
+app.get('/', (req, res) => {
+  res.send('welcome to Bfree Escalation App BEA');
+});
 app.use('/api/v1/message', messageRoutes);
 app.use('/api/v1/agents/forms', amRoutes);
 app.use('/api/v1/superAdmin/forms', superAdminRoutes);

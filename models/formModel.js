@@ -10,7 +10,7 @@ const formSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  fedbacktype: {
+  feedbacktype: {
     type: String,
     required: [true, 'kindly specify the kind of feedback you want to give'],
     enum: [
@@ -18,6 +18,13 @@ const formSchema = new mongoose.Schema({
       'Operations/Team-lead/hr',
       'General Suggestion',
       'Management',
+    ],
+  },
+  description: {
+    type: String,
+    required: [
+      true,
+      'kindly give a description of the feedback you intend to submit',
     ],
   },
   resolved: {
